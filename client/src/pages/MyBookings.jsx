@@ -1,23 +1,76 @@
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Title from '../components/Title'
-import { assets, userBookingsDummyData } from '../assets/assets'
+import { assets } from '../assets/assets'
+import { useAppContext } from '../context/AppContext'
+import toast from 'react-hot-toast'
 
 const MyBookings = () => {
 
-    const [bookings, setBookings] = useState(userBookingsDummyData);
+    const {axios, getToken, user} = useAppContext();
+    const [bookings, setBookings] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const fetchUserBookings = async () => {
+        try {
+            setLoading(true);
+            const token = await getToken();
+            const {data} = await axios.get('/api/bookings/user', {headers: {Authorization: `Bearer ${token}`}})
+            if(data.success) {
+                setBookings(data.bookings || [])
+            }else{
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        if(user) {
+            fetchUserBookings();
+        } else {
+            setLoading(false);
+        }
+    }, [user])
+
+  if (loading) {
+    return (
+      <div className='py-28 md:pb-35 md:pt-32 px-4 md:px-16 lg:px-24 xl:px-32 flex justify-center items-center min-h-screen'>
+        <div className='text-center'>
+          <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto'></div>
+          <p className='mt-4 text-gray-600'>Loading your bookings...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className='py-28 md:pb-35 md:pt-32 px-4 md:px-16 lg:px-24 xl:px-32'>
       <Title title='My Bookings' subtitle='Easily manage your past, current, and upcoming hotel reservation in one place. Plan you trips seamlessly with just one clicks.' align='left' />
       
       <div className='max-w-6xl mt-8 w-full text-gray-800'>
-        <div className='hidden md:grid md:grid-cols-[3fr_2fr_1fr] w-full border-b border-gray-300 font-medium text-base py-3'>
-            <div className='w-1/3'>Hotels</div>
-            <div className='w-1/3'>Date & Timings</div>
-            <div className='w-1/3'>Payments</div>
-        </div>
+        {bookings.length === 0 ? (
+          <div className='text-center py-20'>
+            <p className='text-2xl text-gray-600 mb-4'>No bookings yet</p>
+            <p className='text-gray-500 mb-6'>Start exploring and book your perfect stay!</p>
+            <button 
+              onClick={() => window.location.href = '/rooms'}
+              className='bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition-all'
+            >
+              Browse Rooms
+            </button>
+          </div>
+        ) : (
+          <>
+            <div className='hidden md:grid md:grid-cols-[3fr_2fr_1fr] w-full border-b border-gray-300 font-medium text-base py-3'>
+                <div className='w-1/3'>Hotels</div>
+                <div className='w-1/3'>Date & Timings</div>
+                <div className='w-1/3'>Payments</div>
+            </div>
 
-        {bookings.map((booking)=>(
+            {bookings.map((booking)=>(
             <div key={booking._id} className='grid grid-cols-1 md:grid-cols-[3fr_2fr_1fr] w-full border-b border-gray-300 py-6 first:border-t'>
                 {/* Hotel Details */}
                 <div className='flex flex-col md:flex-row '>
@@ -61,7 +114,9 @@ const MyBookings = () => {
                     )}
                 </div>
             </div>
-        ))}
+            ))}
+          </>
+        )}
       </div>
     </div>
   )
