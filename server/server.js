@@ -10,15 +10,16 @@ import connectCloudinary from "./configs/cloudinary.js"
 import roomRouter from "./routes/roomRoutes.js"
 import bookingRouter from "./routes/bookingRoutes.js"
 
-connectDB()
-connectCloudinary()
-
 // Initialize Clerk client for server-side operations
 export const clerkClient = createClerkClient({
     secretKey: process.env.CLERK_SECRET_KEY
 })
 
 const app = express()
+
+// Connect to database and cloudinary on startup
+connectDB().catch(err => console.error('Failed to connect to MongoDB:', err));
+connectCloudinary();
 
 // CORS configuration
 const corsOptions = {
