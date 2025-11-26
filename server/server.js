@@ -19,7 +19,21 @@ export const clerkClient = createClerkClient({
 })
 
 const app = express()
-app.use(cors()) //Enable Cross origin resource sharing
+
+// CORS configuration
+const corsOptions = {
+    origin: [
+        'http://localhost:5173',
+        'http://localhost:3000',
+        'https://quick-stay-mqi67h4b7-mazidkh12s-projects.vercel.app',
+        /\.vercel\.app$/ // Allow all Vercel preview deployments
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}
+
+app.use(cors(corsOptions)) //Enable Cross origin resource sharing
 
 //API to listen clerk webhooks (MUST be before express.json() middleware)
 app.post("/api/clerk", express.raw({type: "application/json"}), clerkWebhooks);
