@@ -1,8 +1,17 @@
 {
+<<<<<<< HEAD
+=======
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+>>>>>>> 5a604f389b66929936197147883b11dad7a00189
   "rewrites": [
     {
       "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 5a604f389b66929936197147883b11dad7a00189
