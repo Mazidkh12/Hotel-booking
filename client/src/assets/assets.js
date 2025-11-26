@@ -93,9 +93,9 @@ export const exclusiveOffers = [
 
 // Testimonials Dummy Data
 export const testimonials = [
-    { id: 1, name: "Asim Khan", address: "Mumbai, India", image: asim, rating: 5, review: "I've used many booking platforms before, but none compare to the personalized experience and attention to detail that QuickStay provides." },
-    { id: 2, name: "Saad Khan", address: "Delhi, India", image: saadkhan, rating: 4, review: "QuickStay exceeded my expectations. The booking process was seamless, and the hotels were absolutely top-notch. Highly recommended!" },
-    { id: 3, name: "Shadab Khan", address: "Bangalore, India", image: Shadabkhan, rating: 5, review: "Amazing service! I always find the best luxury accommodations through QuickStay. Their recommendations never disappoint!" }
+    { id: 1, name: "Saad Khan", address: "Delhi, India", image: saadkhan, rating: 4, review: "QuickStay exceeded my expectations. The booking process was seamless, and the hotels were absolutely top-notch. Highly recommended!" },
+    { id: 2, name: "Shadab Khan", address: "Bangalore, India", image: Shadabkhan, rating: 5, review: "Amazing service! I always find the best luxury accommodations through QuickStay. Their recommendations never disappoint!" },
+    { id: 3, name: "Asim Khan", address: "Mumbai, India", image: asim, rating: 5, review: "I've used many booking platforms before, but none compare to the personalized experience and attention to detail that QuickStay provides." },
 ];
 
 // Facility Icon
